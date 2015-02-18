@@ -1,9 +1,6 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+Readme updated as of 2/18 at 11:26 AM
 
 * Ruby version
 	- 2.1.5
