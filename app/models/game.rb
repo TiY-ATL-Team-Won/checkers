@@ -1,8 +1,9 @@
 class Game < ActiveRecord::Base
   has_many :players
-  has_many :users, through: :players 
+  has_many :users, through: :players
   validates_length_of :users, maximum: 2
   validates :users, uniqueness: {scope: :game_id}
+
 
   serialize :board
 
@@ -33,10 +34,13 @@ class Game < ActiveRecord::Base
   	Game.where(:finished => false)
   end
 
+<<<<<<< HEAD
   def player_move
   	
   	as_json(move_info)
   end
+=======
+>>>>>>> 57b29750683d70731f6ae1b8ee0e378c52ceb0b1
 
 
 end
