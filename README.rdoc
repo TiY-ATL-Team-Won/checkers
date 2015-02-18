@@ -6,23 +6,42 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+	- 2.1.5
 
 * System dependencies
 
 * Configuration
+	- Devise gem required for Users
 
 * Database creation
 
+	- Users
+		- email = string
+		- password = string
+		- authentication_token = string
+
+	- Games
+		- player1_email = string
+		- player2_email = string
+		- board = text
+		- turn_count = integer
+		- finished = boolean
+		- players_count = integer
+
+	- Players (Join Table between Users/Games)
+		- user_id = integer
+		- game_id = integer
+
+
 * Database initialization
+	- git clone
+	- 'bundle install' inside project directory
+	- run 'rake db:migrate' to initialize database on local machine
 
-* How to run the test suite
+	TO LOOK AT ROUTES:
 
-* Services (job queues, cache servers, search engines, etc.)
+		- run 'rake routes | less' in terminal while inside the project directory
+
 
 * Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+	- simply go to localhost:3000 to begin
