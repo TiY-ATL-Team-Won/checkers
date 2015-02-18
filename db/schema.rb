@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217211529) do
+ActiveRecord::Schema.define(version: 20150218135704) do
+
+  create_table "games", force: :cascade do |t|
+    t.text    "board"
+    t.integer "turn_count"
+    t.boolean "finished"
+    t.string  "player1_email"
+    t.string  "player2_email"
+    t.integer "players_count"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "game_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -26,8 +40,10 @@ ActiveRecord::Schema.define(version: 20150217211529) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "authentication_token"
   end
 
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
