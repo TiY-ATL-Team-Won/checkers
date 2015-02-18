@@ -16,8 +16,8 @@ Readme updated as of 2/18 at 11:26 AM
 
 
 	* Users
-		* email = string
-		* password = string
+		- email = string
+		- password = string
 		- authentication_token = string
 		
 		
