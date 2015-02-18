@@ -1,4 +1,4 @@
-Class GamesController < ApplicationsController
+class GamesController < ApplicationController
   before_action :authenticate_user_from_token!
 
   def show
