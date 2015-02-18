@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20150218031830) do
     t.boolean "finished"
     t.string  "player1_email"
     t.string  "player2_email"
-    t.integer "player_count"
+    t.integer "players_count"
   end
 
   create_table "players", force: :cascade do |t|

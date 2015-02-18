@@ -6,7 +6,7 @@ class CreateGames < ActiveRecord::Migration
     	t.boolean :finished
     	t.string :player1_email
     	t.string :player2_email
-    	t.integer :player_count
+    	t.integer :players_count
     end
   end
 end
