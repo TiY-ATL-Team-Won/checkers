@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     if user
       sign_in user, store: false
     else
-      render json { :error => "Authentication Failure! BOO!"},
+      render json: { :error => "Authentication Failure! BOO!"},
              status: :unauthenticated
     end
 

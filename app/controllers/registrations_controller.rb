@@ -5,7 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
     if @user.save
       render json: {:user => @user}, status: :created
     else
-      render json {:messages => @user.errors.full_messages},
+      render json: {:messages => @user.errors.full_messages},
              status: :unprocessable_entity
     end
   end
