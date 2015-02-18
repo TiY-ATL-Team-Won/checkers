@@ -13,6 +13,20 @@
 
 ActiveRecord::Schema.define(version: 20150218135704) do
 
+  create_table "games", force: :cascade do |t|
+    t.text    "board"
+    t.integer "turn_count"
+    t.boolean "finished"
+    t.string  "player1_email"
+    t.string  "player2_email"
+    t.integer "players_count"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "game_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false

@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  has_many :players
+  has_many :games, through: :players
+
 
   before_save :ensure_authentication_token
 
@@ -23,4 +26,5 @@ class User < ActiveRecord::Base
      break token unless User.where(authentication_token: token).first
    end
  end
+
 end
