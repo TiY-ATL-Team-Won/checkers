@@ -1,4 +1,4 @@
-class RegistrationsController < Devise::RegistrationController
+class RegistrationsController < Devise::RegistrationsController
 
   def create
     @user = User.create(user_params)
@@ -9,7 +9,7 @@ class RegistrationsController < Devise::RegistrationController
              status: :unprocessable_entity
     end
   end
-  
+
   private
     def user_params
       params.require(:user).permit(:email, :password)
