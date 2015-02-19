@@ -35,19 +35,27 @@ class Game < ActiveRecord::Base
   end
 
 
+#  params = { x => int, y => int, move => [[x1, y1], [x2, y2]]}
+#
+#
+#
+#
+
   def player_move(params)
   	start_x = params[x]
   	start_y = params[y]
+
+
   	if current_user == game.players.first
   		case type
   		when 1
   			red_move(start_x, start_y, params[move])
   		when 2
-  			black_move(start_x, start_y, params[move])
+  			return_board(board, message_type = 0, message = "That's not your piece")
   		when 3
-  			red_king_move(start_x, start_y, params[move])
+  			king_move(start_x, start_y, params[move])
   		when 4
-  			black_king_move(start_x, start_y, params[move])
+  			return_board(board, message_type = 0, message = "That's not your piece")
   		end
   	else
   		case type
@@ -56,14 +64,16 @@ class Game < ActiveRecord::Base
   		when 2
   			black_move(start_x, start_y, params[move])
   		when 3
-  			red_king_move(start_x, start_y, params[move])
+  			king_move(start_x, start_y, params[move])
   		when 4
-  			black_king_move(start_x, start_y, params[move])
+  			king_move(start_x, start_y, params[move])
   		end
   	
-  	return_board = self.board.to_json
+  	return_board(board, message_type, message)
 
   end
+
+
 
   def red_move(st_x, st_y, move)
   	num_moves = move.size
@@ -71,8 +81,10 @@ class Game < ActiveRecord::Base
   	  mv_x = move[x]
   	  mv_y = move[y]
   	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+  	  	board[st_x][st_y] = 0
   	  	board[mv_x][mv_y] = 1
   	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+
 
 
   	  end
