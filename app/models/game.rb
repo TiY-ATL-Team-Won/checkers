@@ -41,6 +41,12 @@ class Game < ActiveRecord::Base
 #
 #
 
+  def test_move(params)
+
+
+
+  end
+
   def player_move(params)
   	start_x = params[x]
   	start_y = params[y]
@@ -76,8 +82,8 @@ class Game < ActiveRecord::Base
 
 
   def red_move(st_x, st_y, move)
-  	num_moves = move.size
-  	num_moves.each do |move|
+
+  	moves.each do |move|
   	  mv_x = move[x]
   	  mv_y = move[y]
   	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
