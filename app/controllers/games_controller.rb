@@ -18,7 +18,7 @@ class GamesController < ApplicationController
     @waiting = Game.waiting.first
     if @waiting
       @waiting.users << current_user
-      render json: game_response(@waiting), status: :foo
+      render json: game_response(@waiting), status: :ok
     else
       @game = Game.create
       @game.users = [current_user]
@@ -29,6 +29,6 @@ class GamesController < ApplicationController
 
   private
     def game_response(game)
-      {:game => game.as_json(include: { users: { only: [:id, :email] }} )}
+      { :game => game.as_json(include: { users: { :only => [:id, :email]}})}
     end
 end
