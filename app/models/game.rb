@@ -38,18 +38,31 @@ class Game < ActiveRecord::Base
   def player_move(params)
   	start_x = params[x]
   	start_y = params[y]
-  	case type
-  	when 1
-  		red_move(start_x, start_y, params[move])
-  	when 2
-  		black_move(start_x, start_y, params[move])
-  	when 3
-  		red_king_move(start_x, start_y, params[move])
-  	when 4
-  		black_king_move(start_x, start_y, params[move])
-  	end
+  	if current_user == game.players.first
+  		case type
+  		when 1
+  			red_move(start_x, start_y, params[move])
+  		when 2
+  			black_move(start_x, start_y, params[move])
+  		when 3
+  			red_king_move(start_x, start_y, params[move])
+  		when 4
+  			black_king_move(start_x, start_y, params[move])
+  		end
+  	else
+  		case type
+  		when 1
+  			as_json(self.board, notice: )
+  		when 2
+  			black_move(start_x, start_y, params[move])
+  		when 3
+  			red_king_move(start_x, start_y, params[move])
+  		when 4
+  			black_king_move(start_x, start_y, params[move])
+  		end
   	
-  	as_json(move_info)
+  	return_board = self.board.to_json
+
   end
 
   def red_move(st_x, st_y, move)
@@ -60,6 +73,24 @@ class Game < ActiveRecord::Base
   	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
   	  	board[mv_x][mv_y] = 1
   	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+
+
+  	  end
+
+
+  	end
+
+  end
+
+
+  def as_json(opts={})
+  	super(:only =>[:board, :response_type, :response_content])
+  end
+
+
+
+
+
 
 
 end

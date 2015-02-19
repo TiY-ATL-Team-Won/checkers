@@ -13,6 +13,7 @@ class GamesController < ApplicationController
   	@game.player_move()
   end
 
+
   def join
     @waiting = Game.waiting.first
     if @waiting
@@ -24,5 +25,11 @@ class GamesController < ApplicationController
       @game.new_game! #intial board and turn count stuff...
       redirect_to games_show_path(@game)
     end
+  end
+
+  private
+
+  def as_json(opts={})
+  	super(:only =>[:board, :response_type, :response_content])
   end
 end
