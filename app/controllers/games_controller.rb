@@ -10,7 +10,6 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @player1 = @game.users.first
     @player2 = @game.users.second
-    #render json: {:game => @game, :users => {:player1 => @player1, :player2 => @player2}}, status: :ok
     render json: game_response(@game), status: :ok
   end
 
@@ -28,7 +27,9 @@ class GamesController < ApplicationController
   end
 
   private
+
     def game_response(game)
       { :game => game.as_json(include: { users: { :only => [:id, :email]}})}
     end
+
 end
