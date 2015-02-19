@@ -7,7 +7,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find_by(params[:id])
+    @game = Game.find(params[:id])
     @player1 = @game.users.first
     @player2 = @game.users.second
     render json: {:game => @game, :users => {:player1 => @player1, :player2 => @player2}}, status: :ok
