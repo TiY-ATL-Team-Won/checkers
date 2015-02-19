@@ -1,10 +1,15 @@
 class GamesController < ApplicationController
   before_action :authenticate_user_from_token!
 
+  def index
+    @games = Game.all
+    render json: {:game => @games}, status: :ok
+  end
+
   def show
     @game = Game.find_by(params[:id])
     @player1 = @game.user.first
-    @player2 = @game.user.second 
+    @player2 = @game.user.second
     render json: {:game => @game}, status: :ok
   end
 
