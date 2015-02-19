@@ -5,8 +5,10 @@ class GamesController < ApplicationController
     @game = Game.find_by(params[:id])
     @player1 = @game.users.first
     @player2 = @game.users.second
-    # render json: {:game => @game, :player => {:user_id => @player1, :user_id => @player2}}, status: :ok
-    render json: {:game => @game, :player => @player1, :player => @player2}
+    #render json: {:game => @game, :player => {:user_id => @player1, :user_id => @player2}}, status: :ok
+    render json: {:game => @game, :users => {:player1 => @player1, :player2 => @player2}}, status: :ok
+    # render json: {:game => @game, :player => @player1, :player => @player2}
+    #render json: {:game => @game.users}
     #think abt what devs need. prob player 2 and 1
   end
 
