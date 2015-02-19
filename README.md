@@ -48,7 +48,7 @@ Both routes uses the same parameters and produces the same JSON below:
 	`{"user":{"email":"rails@awesome.com","authentication_token":"dQU52Nzarq16sYE2DGxC"}}`
 
 
-BACKEND Info
+# Backend Info
 
 * Ruby version
 
