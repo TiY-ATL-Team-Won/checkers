@@ -5,6 +5,20 @@ Readme updated as of 2/18 at 11:26 AM
 API Information
 
 USERS -
+Join/Create a new game:
+POST '/games'
+
+JSON Response:
+{"authentication_token":[{"email":"rachel@awesome.com","authentication_token":"UTxkHqFwC2_Tcz7_Ad-K"},{"email":"rails@awesome.com","authentication_token":"dQU52Nzarq16sYE2DGxC"},{"email":"rapture@awesome.com","authentication_token":"Se5nkpmnsPhHxyfxaTAu"},{"email":"blah@awesome.com","authentication_token":"2sUiybkjyaCjcAwx2QzD"},{"email":"blah@blah.com","authentication_token":"siyxDP98_kQR9Qhpw6zy"},{"email":"blahblah@blah.com","authentication_token":"nzu5z_8JwNonmHb6gLNi"}],"game":{"board":null,"turn_count":null}}
+
+Show game:
+GET '/games/:id'
+
+Parameters: Datatype
+ - auth_token: string (required)
+
+JSON Response:
+{"game":{"board":null,"turn_count":null},"player":{"email":"rails@awesome.com","authentication_token":"dQU52Nzarq16sYE2DGxC"}}
 
 Registers new user:
 
