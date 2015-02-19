@@ -11,6 +11,7 @@ class GamesController < ApplicationController
   def move
   	move_info = JSON.parse(params.body)
   	@game.player_move()
+  end
 
   def join
     @waiting = Game.waiting.first
