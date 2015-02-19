@@ -43,8 +43,9 @@ Both routes uses the same parameters and produces the same JSON below:
 	- email
 	- authentication_token
 
-Response
-{"user":{"email":"rails@awesome.com","authentication_token":"dQU52Nzarq16sYE2DGxC"}}
+* Response
+
+	`{"user":{"email":"rails@awesome.com","authentication_token":"dQU52Nzarq16sYE2DGxC"}}`
 
 
 BACKEND Info
