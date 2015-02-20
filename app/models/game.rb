@@ -64,7 +64,7 @@ class Game < ActiveRecord::Base
   	end
   end
 
-  def test_red_move(st_x, st_y, params[move])
+  def test_red_move(st_x, st_y, moves)
   	moves.each do |move|
   	  mv_x = move[x]
   	  mv_y = move[y]
@@ -98,7 +98,7 @@ class Game < ActiveRecord::Base
   	else
   		case type
   		when 1
-  			as_json(self.board, notice: )
+  			as_json(self.board)
   		when 2
   			black_move(start_x, start_y, params[move])
   		when 3
@@ -106,6 +106,7 @@ class Game < ActiveRecord::Base
   		when 4
   			king_move(start_x, start_y, params[move])
   		end
+    end
   	
   	return_board(board, message_type, message)
 

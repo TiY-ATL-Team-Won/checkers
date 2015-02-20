@@ -12,7 +12,7 @@ class GamesController < ApplicationController
   	@game = Game.find_by(params[:id])
   	move_info = JSON.parse(params.body)
   	return_info = @game.player_move(move_info)
-  	render json: {:game => @game}, status: :ok
+  	render json: return_info, status: :ok
   end
 
 
