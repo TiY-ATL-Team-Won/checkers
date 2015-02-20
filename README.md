@@ -32,6 +32,13 @@ API Information
 	
 	`POST '/users/sign_in'`
 
+* Leaderboard:
+	`Get '/users/leaderboard'`
+	- Leaderboard will be showing experience.  Working on a model method in order to update experience, which 
+	will take a users points from wins, losses, forfeits, and draws and will divide that by the total users 
+	games in order to create a fair ranking system.  Will avoid scewing the data towards those who have played
+	a ton and have a poor record, but have accumulated far more wins than somebody with less play time.
+
 
 Both routes uses the same parameters and produces the same JSON below:
 
