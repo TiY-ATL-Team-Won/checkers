@@ -3,8 +3,8 @@ Rails.application.routes.draw do
                                       :sessions => "sessions" }
   get '/games/:id', to: 'games#show', as: 'games_show'
   post '/games', to: 'games#join', as: 'games_join'
-  get '/games', to: 'games#index', as: 'games'
-  get '/games/leaderboard', to: 'games#leaderboard', as: 'games_leaderboard'
+  #get '/games', to: 'games#index', as: 'games'
+  get '/users/leaderboard', to: 'users#leaderboard', as: 'users_leaderboard'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
