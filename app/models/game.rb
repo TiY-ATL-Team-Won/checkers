@@ -7,7 +7,7 @@ class Game < ActiveRecord::Base
   serialize :board
 
   def as_json(opts={})
-    options = { :only => [:board, :turn_count] }
+    options = { :only => [:board, :turn_count, :id] }
     options.merge!(opts)
     super(options)
   end
