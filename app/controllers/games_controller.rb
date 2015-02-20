@@ -15,7 +15,7 @@ class GamesController < ApplicationController
 
   def move
   	@game = Game.find_by(params[:id])
-  	move_info = JSON.parse(params.body)
+  	move_info = JSON.parse(request.body)
   	return_info = @game.player_move(move_info)
   	render json: return_info, status: :ok
   end
@@ -37,7 +37,7 @@ class GamesController < ApplicationController
   private
 
   def as_json(opts={})
-  	super(:only =>[:board, :response_type, :response_content])
+  	super(:only =>[:board, :turn_count, :response_type, :response_content])
   end
 
   def game_response(game)
