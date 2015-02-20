@@ -7,17 +7,20 @@ class Game < ActiveRecord::Base
   serialize :board
 
   def as_json(opts={})
-    super(:only => [:board, :turn_count])
+    options = { :only => [:board, :turn_count, :id] }
+    options.merge!(opts)
+    super(options)
   end
 
   STARTING_BOARD = [[1, 0, 1, 0, 1, 0, 1, 0],
                     [0, 1, 0, 1, 0, 1, 0, 1],
- 					          [1, 0, 1, 0, 1, 0, 1, 0],
- 					          [0, 0, 0, 0, 0, 0, 0, 0],
- 					          [0, 0, 0, 0, 0, 0, 0, 0],
- 					          [0, 2, 0, 2, 0, 2, 0, 2],
- 					          [2, 0, 2, 0, 2, 0, 2, 0],
- 					          [0, 2, 0, 2, 0, 2, 0, 2]]
+                    [1, 0, 1, 0, 1, 0, 1, 0],
+           					[0, 0, 0, 0, 0, 0, 0, 0],
+           					[0, 0, 0, 0, 0, 0, 0, 0],
+           					[0, 2, 0, 2, 0, 2, 0, 2],
+           					[2, 0, 2, 0, 2, 0, 2, 0],
+           					[0, 2, 0, 2, 0, 2, 0, 2]]
+
 
   def new_game!
   	self.board = STARTING_BOARD

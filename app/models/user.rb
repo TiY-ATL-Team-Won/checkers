@@ -15,9 +15,13 @@ class User < ActiveRecord::Base
     end
   end
 
- def as_json(opts={})
-   super(:only => [:email, :authentication_token])
- end
+  def as_json(opts={})
+    super(:only => [:email, :authentication_token, :experience, :id])
+  end
+
+  # def update_experience
+  #   @user = User.find[params]
+  # end
 
  private
  def generate_authentication_token
