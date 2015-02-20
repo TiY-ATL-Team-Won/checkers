@@ -27,8 +27,9 @@ class GamesController < ApplicationController
   end
 
   def leaderboard
-     @users = User.all.group(experience: :desc).first(25)
-     render json: { :users => @users }, status: :ok
+    @users = User.all.order(experience: :desc).first(25)
+    binding.pry
+    render json: { :users => @users }, status: :created
   end
 
   private
