@@ -19,9 +19,9 @@ class User < ActiveRecord::Base
     super(:only => [:email, :authentication_token, :experience, :id])
   end
 
-  def update_experience
-    @user = User.find[params]
-  end
+  # def update_experience
+  #   @user = User.find[params]
+  # end
 
  private
  def generate_authentication_token
