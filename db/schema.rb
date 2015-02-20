@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150219222944) do
+ActiveRecord::Schema.define(version: 20150220013637) do
 
   create_table "games", force: :cascade do |t|
     t.text    "board"
@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(version: 20150219222944) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "authentication_token"
-    t.integer  "wins"
-    t.integer  "losses"
-    t.integer  "draws"
+    t.integer  "wins",                   default: 0
+    t.integer  "losses",                 default: 0
+    t.integer  "draws",                  default: 0
     t.integer  "experience",             default: 0
   end
 

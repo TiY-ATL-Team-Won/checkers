@@ -41,10 +41,42 @@ class Game < ActiveRecord::Base
 #
 #
 
+  def return_board(board, message_type, message)
+    json_return = {:board => board, :message_type => message_type, :message => message}
+  end
+
   def test_move(params)
+    start_x = params[x]
+    start_y = params[y]
+    type = self.board[start_x][start_y]
 
+  	if current_user == game.players.first
+  	  case type
+  	  when 1
+  	    test_red_move(start_x, start_y, params[move])
+  	  when 2
+  		  return_board(self.board, message_type = 0, message = "That's not your piece")
+  	  when 3
+  		  test_king_move(start_x, start_y, params[move])
+      when 4
+  		  return_board(self.board, message_type = 0, message = "That's not your piece")
+  	  end
+  	end
+  end
 
-
+  def test_red_move(st_x, st_y, params[move])
+  	moves.each do |move|
+  	  mv_x = move[x]
+  	  mv_y = move[y]
+  	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && self.board[mv_x][mv_y] == 0
+  	  	self.board[st_x][st_y] = 0
+  	  	self.board[mv_x][mv_y] = 1
+  	  	return_hash = return_board(self.board, message_type = 1, message = "Move successful")
+  	  else
+  	  	return_hash = return_board(board, message_type = 0, message = "You can't move there!")
+  	  end
+  	end
+    return_hash
   end
 
   def player_move(params)
@@ -87,9 +119,12 @@ class Game < ActiveRecord::Base
   	  mv_x = move[x]
   	  mv_y = move[y]
   	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-  	  	board[st_x][st_y] = 0
-  	  	board[mv_x][mv_y] = 1
+  	  	self.board[st_x][st_y] = 0
+  	  	self.board[mv_x][mv_y] = 1
   	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+  	  	
+
+  	  	#this code needs to be finished!
 
 
 

@@ -9,8 +9,10 @@ class GamesController < ApplicationController
   end
 
   def move
+  	@game = Game.find_by(params[:id])
   	move_info = JSON.parse(params.body)
-  	@game.player_move()
+  	return_info = @game.player_move(move_info)
+  	render json: return_info, status: :ok
   end
 
 
@@ -26,7 +28,7 @@ class GamesController < ApplicationController
       redirect_to games_show_path(@game)
     end
   end
-  
+
 
   private
 
