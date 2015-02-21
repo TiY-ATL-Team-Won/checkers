@@ -24,8 +24,12 @@ class Game < ActiveRecord::Base
 
   def new_game!
   	self.board = STARTING_BOARD
+    # self.update_attribute :board, STARTING_BOARD
+    #binding.pry
+    #self.users.first
   	self.turn_count = 1
-  	binding.pry
+  	#binding.pry
+
   	self.save
   end
 
@@ -45,108 +49,112 @@ class Game < ActiveRecord::Base
 #
 
   def return_board(board, message_type, message)
-    json_return = {:board => board, :message_type => message_type, :message => message}
+    return {:board => board, :message_type => message_type, :message => message}
   end
 
-  def test_move(params)
-    start_x = params[x]
-    start_y = params[y]
-    type = self.board[start_x][start_y]
 
-  	if current_user == game.players.first
+  # set up a 'direction' variable that is based on player, that way we only need a player_move
+  # this renders having a black and red_move function unnecessary
+
+  def test_move(params)
+    @game = Game.find(params["id"].to_i)
+    user_id = params["user_id"]
+    start_x = params["x"]
+    start_y = params["y"]
+    current_user = User.find(user_id)
+    type = @game.board[start_y][start_x]
+    binding.pry
+
+  	if current_user == @game.users.first
   	  case type
   	  when 1
-  	    test_red_move(start_x, start_y, params[move])
+        binding.pry
+  	    test = test_red_move(start_x, start_y, params["move"])
   	  when 2
-  		  return_board(self.board, message_type = 0, message = "That's not your piece")
+  		  test = return_board(@game.board, message_type = 0, message = "That's not your piece")
   	  when 3
-  		  test_king_move(start_x, start_y, params[move])
+  		  test = test_king_move(start_x, start_y, params[move])
       when 4
-  		  return_board(self.board, message_type = 0, message = "That's not your piece")
+  		  test = return_board(@game.board, message_type = 0, message = "That's not your piece")
   	  end
   	end
+    test
   end
 
   def test_red_move(st_x, st_y, moves)
+    #binding.pry
   	moves.each do |move|
-  	  mv_x = move[x]
-  	  mv_y = move[y]
-  	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && self.board[mv_x][mv_y] == 0
-  	  	self.board[st_x][st_y] = 0
-  	  	self.board[mv_x][mv_y] = 1
-  	  	return_hash = return_board(self.board, message_type = 1, message = "Move successful")
+  	  mv_x, mv_y = move
+      #binding.pry
+  	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && @game.board[mv_y][mv_x] == 0
+        binding.pry
+  	  	@game.board[st_y][st_x] = 0
+  	  	@game.board[mv_y][mv_x] = 1
   	  else
-  	  	return_hash = return_board(board, message_type = 0, message = "You can't move there!")
+        binding.pry
+  	  	return {:board => @game.board, :message_type => 0, :message => "Move unsuccessful"}
   	  end
   	end
-    return_hash
+    @game.save
+    {:board => @game.board, :turn_count => @game.turn_count, :message_type => 1, :message => "Move successful"}
   end
 
-  def player_move(params)
-  	start_x = params[x]
-  	start_y = params[y]
+  # def player_move(params)
+  # 	start_x = params[x]
+  # 	start_y = params[y]
 
 
-  	if current_user == game.players.first
-  		case type
-  		when 1
-  			red_move(start_x, start_y, params[move])
-  		when 2
-  			return_board(board, message_type = 0, message = "That's not your piece")
-  		when 3
-  			king_move(start_x, start_y, params[move])
-  		when 4
-  			return_board(board, message_type = 0, message = "That's not your piece")
-  		end
-  	else
-  		case type
-  		when 1
-  			as_json(self.board)
-  		when 2
-  			black_move(start_x, start_y, params[move])
-  		when 3
-  			king_move(start_x, start_y, params[move])
-  		when 4
-  			king_move(start_x, start_y, params[move])
-  		end
-    end
+  # 	if current_user == game.players.first
+  # 		case type
+  # 		when 1
+  # 			red_move(start_x, start_y, params["move"])
+  # 		when 2
+  # 			return_board(board, message_type = 0, message = "That's not your piece")
+  # 		when 3
+  # 			king_move(start_x, start_y, params[move])
+  # 		when 4
+  # 			return_board(board, message_type = 0, message = "That's not your piece")
+  # 		end
+  # 	else
+  # 		case type
+  # 		when 1
+  # 			as_json(self.board)
+  # 		when 2
+  # 			black_move(start_x, start_y, params[move])
+  # 		when 3
+  # 			king_move(start_x, start_y, params[move])
+  # 		when 4
+  # 			king_move(start_x, start_y, params[move])
+  # 		end
+  #   end
   	
-  	return_board(board, message_type, message)
+  # 	return_board(board, message_type, message)
 
-  end
+  # end
 
 
 
-  def red_move(st_x, st_y, move)
+  # def red_move(st_x, st_y, move)
 
-  	moves.each do |move|
-  	  mv_x = move[x]
-  	  mv_y = move[y]
-  	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-  	  	self.board[st_x][st_y] = 0
-  	  	self.board[mv_x][mv_y] = 1
-  	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+  # 	moves.each do |move|
+  # 	  mv_x = move[x]
+  # 	  mv_y = move[y]
+  # 	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+  # 	  	self.board[st_x][st_y] = 0
+  # 	  	self.board[mv_x][mv_y] = 1
+  # 	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
   	  	
 
-  	  	#this code needs to be finished!
+  # 	  	#this code needs to be finished!
 
 
 
-  	  end
+  # 	  end
 
 
-  	end
+  # 	end
 
-  end
-
-
-  def as_json(opts={})
-  	super(:only =>[:board, :response_type, :response_content])
-  end
-
-
-
-
+  # end
 
 
 

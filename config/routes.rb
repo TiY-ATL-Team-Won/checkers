@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get '/games/:id', to: 'games#show', as: 'games_show'
   post '/games', to: 'games#join', as: 'games_join'
   get '/games', to: 'games#index', as: 'games'
-  post '/games/:id', to: 'games#move', as: 'games_move'
+  put '/games/:id', to: 'games#move', as: 'games_move'
   #get '/games', to: 'games#index', as: 'games'
   get '/users/leaderboard', to: 'users#leaderboard', as: 'users_leaderboard'
   # The priority is based upon order of creation: first created -> highest priority.

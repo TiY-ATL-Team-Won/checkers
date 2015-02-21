@@ -15,8 +15,9 @@ class GamesController < ApplicationController
 
   def move
   	@game = Game.find_by(params[:id])
-  	move_info = JSON.parse(request.body)
-  	return_info = @game.player_move(move_info)
+    #binding.pry
+  	return_info = @game.test_move(params)
+    #binding.pry
   	render json: return_info, status: :ok
   end
 
@@ -28,7 +29,9 @@ class GamesController < ApplicationController
       render json: game_response(@waiting), status: :ok
     else
       @game = Game.create
+      #binding.pry
       @game.users = [current_user]
+      binding.pry
       @game.new_game!
       render json: game_response(@game), status: :created
     end
@@ -37,7 +40,7 @@ class GamesController < ApplicationController
   private
 
   def as_json(opts={})
-  	super(:only =>[:board, :turn_count, :response_type, :response_content])
+  	super(:only =>[:id, :board, :turn_count, :response_type, :response_content])
   end
 
   def game_response(game)
