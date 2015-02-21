@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   def update_experience
     @user = User.find(params[:id])
     total_games = @user.wins + @user.draws + @user.losses
-    total_points = (@user.wins * 2) + (@user.draws * 1) + (@user.losses * 0)
+    total_points = (@user.wins * 5) + (@user.draws * 1) + (@user.losses * 0)
     raw_level = ((total_points).to_f)/((total_games).to_f)
     level = raw_level.round(3)
     @user.update(:experience => level)
