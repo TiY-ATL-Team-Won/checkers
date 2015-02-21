@@ -35,6 +35,28 @@ class Game < ActiveRecord::Base
   	Game.where(:finished => false)
   end
 
+  def up_single?(moves)
+    x1,y1 = moves.first
+    x2,y2 = moves[1]
+    return false unless ((x1-x2).abs == 1) && (y1-y2 == 1)
+  end
 
+  def down_single?(moves)
+    x1,y1 = moves.first
+    x2,y2 = moves[1]
+    return false unless ((x1-x2).abs == 1) && (y2-y1 == 1)
+  end
+
+  def up_double?(moves)
+    x1,y1 = moves.first
+    x2,y2 = moves[1]
+    return false unless ((x1-x2).abs == 2) && (y1-y2 == 2)
+  end
+
+  def down_double(moves)
+    x1,y1 = moves.first
+    x2,y2 = moves[1]
+    return false unless ((x1-x2).abs == 2) && (y2-y1 == 2)
+  end
 
 end
