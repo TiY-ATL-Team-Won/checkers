@@ -13,6 +13,14 @@ class GamesController < ApplicationController
     render json: game_response(@game), status: :ok
   end
 
+  def move
+  	@game = Game.find_by(params[:id])
+  	move_info = JSON.parse(request.body)
+  	return_info = @game.player_move(move_info)
+  	render json: return_info, status: :ok
+  end
+
+
   def join
     @waiting = Game.waiting.first
     if @waiting
@@ -28,9 +36,14 @@ class GamesController < ApplicationController
 
   private
 
-    def game_response(game)
-      { :game => game.as_json(include: { users: { :only => [:id, :email]}})}
-    end
+  def as_json(opts={})
+  	super(:only =>[:board, :turn_count, :response_type, :response_content])
+  end
+
+  def game_response(game)
+    { :game => game.as_json(include: { users: { :only => [:id, :email]}})}
+  end
+
 
 
 end

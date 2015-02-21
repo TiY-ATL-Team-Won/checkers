@@ -11,5 +11,14 @@ class UsersController < ApplicationController
     @users = User.order(experience: :desc).limit(25)
     render json: { :users => @users }, status: :created
   end
+
+
+  private
+    def as_json(opts={})
+      super(:only => [:id, :email])
+    end
+
+
+
 end
 
