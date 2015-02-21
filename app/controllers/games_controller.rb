@@ -23,7 +23,7 @@ class GamesController < ApplicationController
 
 
   def join
-    @waiting = Game.waiting.first
+    @waiting = Game.find_by players_count: 1
     if @waiting
       @waiting.users << current_user
       render json: game_response(@waiting), status: :ok
@@ -31,7 +31,7 @@ class GamesController < ApplicationController
       @game = Game.create
       #binding.pry
       @game.users = [current_user]
-      binding.pry
+      # binding.pry
       @game.new_game!
       render json: game_response(@game), status: :created
     end
