@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   get '/games', to: 'games#index', as: 'games'
   put '/games/:id', to: 'games#move', as: 'games_move'
   #get '/games', to: 'games#index', as: 'games'
+
   get '/users/leaderboard', to: 'users#leaderboard', as: 'users_leaderboard'
+  get 'users/:id', to: 'users#show', as: 'users_show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user_from_token!
+
+  def show
+    @user = current_user
+    render json: { :user => @user }, status: :created
+  end
+
 
   def leaderboard
-  	@users = User.all.sort_by(:experience)
-  	render json: {:users => @users}, status: :ok
-    @users = User.all.order(experience: :desc).first(25)
+    @users = User.order(experience: :desc).limit(25)
     render json: { :users => @users }, status: :created
   end
 
@@ -14,4 +19,6 @@ class UsersController < ApplicationController
     end
 
 
+
 end
+
