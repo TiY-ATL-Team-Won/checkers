@@ -14,7 +14,7 @@ class GamesController < ApplicationController
   end
 
   def move
-  	@game = Game.find_by(params[:id])
+  	@game = Game.find(params[:id])
     #binding.pry
   	return_info = @game.test_move(params)
     #binding.pry
