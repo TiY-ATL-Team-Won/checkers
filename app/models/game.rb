@@ -72,30 +72,34 @@ class Game < ActiveRecord::Base
   	  case type
   	  when 1
         #binding.pry
-  	    test = test_black_move(start_x, start_y, params["move"])
+  	    test = test_black_move(start_x, start_y, type, params["move"])
   	  when 2
         #binding.pry
-  		  test = test_red_move(start_x, start_y, params["move"])
+  		  test = test_red_move(start_x, start_y, type, params["move"])
   	  when 3
-  		  test = test_king_move(start_x, start_y, params[move])
+  		  test = test_king_move(start_x, start_y, type, params["move"])
       when 4
-  		  test = return_board(@game.board, message_type = 0, message = "That's not your piece")
+  		  test = test_king_move(start_x, start_y, type, params["move"])
   	  end
   	end
     test
   end
 
-  def test_black_move(st_x, st_y, moves)
-    #binding.pry
+  # this is a misnormer, this code is not test code any more
+  # 
+  def test_black_move(st_x, st_y, type, moves)
   	moves.each do |move|
   	  mv_x, mv_y = move
-      #binding.pry
   	  if legal_black_move(st_x, st_y, mv_x, mv_y, @game.board)
   	  	@game.board[st_y][st_x] = 0
   	  	@game.board[mv_y][mv_x] = 1
+        if king_me(mv_x, mv_y, type)
+          @game.turn_count = 2
+          @game.save
+          return {:board => @game.board, :turn_count => @game.turn_count, :message_type => 1, :message => "Move successful, you now have a king!"}
+        end
   	  else
-        #binding.pry
-  	  	return {:board => @game.board, :message_type => 0, :message => "Move unsuccessful"}
+  	  	return {:board => @game.board, :turn_count => @game.turn_count, :message_type => 0, :message => "Move unsuccessful"}
   	  end
   	end
     @game.turn_count = 2
@@ -103,17 +107,19 @@ class Game < ActiveRecord::Base
     {:board => @game.board, :turn_count => @game.turn_count, :message_type => 1, :message => "Move successful"}
   end
 
-  def test_red_move(st_x, st_y, moves)
-    #binding.pry
+  # this is a misnomer, this code is not test code any more
+  def test_red_move(st_x, st_y, type, moves)
     moves.each do |move|
       mv_x, mv_y = move
-      #binding.pry
       if legal_red_move(st_x, st_y, mv_x, mv_y, @game.board)
-        #binding.pry
         @game.board[st_y][st_x] = 0
         @game.board[mv_y][mv_x] = 2
+        if king_me(mv_x, mv_y, type)
+          @game.turn_count = 1
+          @game.save
+          return {:board => @game.board, :turn_count => @game.turn_count, :message_type => 1, :message => "Move successful, you now have a king!"}
+        end
       else
-        #binding.pry
         return {:board => @game.board, :message_type => 0, :message => "Move unsuccessful"}
       end
     end
@@ -122,72 +128,44 @@ class Game < ActiveRecord::Base
     {:board => @game.board, :turn_count => @game.turn_count, :message_type => 1, :message => "Move successful"}
   end
 
+
+  def test_king_move(st_x, st_y, type, moves)
+    moves.each do |move|
+      mv_x, mv_y = move
+      if legal_king_move(st_x, st_y, mv_x, mv_y, @game.board)
+        @game.board[st_y][st_x] = 0
+        @game.board[mv_y][mv_x] = type
+        
+
+
+
+  # checks red moves for legality (single move, does not check for jumps)
   def legal_red_move(start_x, start_y, x, y, board)
     y + 1 == start_y && (x - 1 == start_x || x + 1 == start_x) && board[y][x] == 0
   end
 
+  # checks black moves for legality (single move, does not check for jumps)
   def legal_black_move(start_x, start_y, x, y, board)
     y - 1 == start_y && (x - 1 == start_x || x + 1 == start_x) && board[y][x] == 0
   end
 
-  # def player_move(params)
-  # 	start_x = params[x]
-  # 	start_y = params[y]
+  def legal_king_move(start_x, start_y, x, y, board)
+    (y - 1 == start_y || y + 1 == start_y) && (x - 1 == start_x || x + 1 == start_x) && board[y][x] == 0
+  end
 
+  # checks to see if a piece should be kinged at the end of a turn, it it should be, king it!
+  def king_me(mv_x, mv_y, type)
+    if type == 1 && mv_y == 7
+      @board[mv_y][mv_x] = 3
+      return true
+    elsif type == 2 && mv_y == 0
+      @board[mv_y][mv_x] = 4
+      return true
+    else
+      return false
+    end
+  end
 
-  # 	if current_user == game.players.first
-  # 		case type
-  # 		when 1
-  # 			red_move(start_x, start_y, params["move"])
-  # 		when 2
-  # 			return_board(board, message_type = 0, message = "That's not your piece")
-  # 		when 3
-  # 			king_move(start_x, start_y, params[move])
-  # 		when 4
-  # 			return_board(board, message_type = 0, message = "That's not your piece")
-  # 		end
-  # 	else
-  # 		case type
-  # 		when 1
-  # 			as_json(self.board)
-  # 		when 2
-  # 			black_move(start_x, start_y, params[move])
-  # 		when 3
-  # 			king_move(start_x, start_y, params[move])
-  # 		when 4
-  # 			king_move(start_x, start_y, params[move])
-  # 		end
-  #   end
-
-  # 	return_board(board, message_type, message)
-
-  # end
-
-
-
-  # def red_move(st_x, st_y, move)
-
-  # 	moves.each do |move|
-  # 	  mv_x = move[x]
-  # 	  mv_y = move[y]
-  # 	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-  # 	  	self.board[st_x][st_y] = 0
-  # 	  	self.board[mv_x][mv_y] = 1
-  # 	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-
-
-  # 	  	#this code needs to be finished!
-
-
-
-  # 	  end
-
-
-  # 	end
-
-  # end
-
->>>>>>> origin/fix_counter_cache
 
 
 end
