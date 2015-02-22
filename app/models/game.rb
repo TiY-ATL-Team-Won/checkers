@@ -50,11 +50,11 @@ class Game < ActiveRecord::Base
   end
 
   def is_jump_available?
-    self.board.each do |r|
-      r.each do |c|
+    (0..7).each do |r|
+      (0..7).each do |c|
         #check if jumps avaiable for each piece
-        if game_current_player_pieces.include?(c)
-          piece = c
+        if game_current_player_pieces.include?(self.board[r][c])
+          piece = self.board[r][c]
           case piece
           when 1
             return true if down_double?([[r,c],[r+2,c-2]])||down_double?([[r,c],[r+2,c+2]])
@@ -67,20 +67,19 @@ class Game < ActiveRecord::Base
             return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]]) ||
             down_double?([[r,c],[r+2,c+2]])||down_double?([[r,c],[r+2,c-2]])
           end
-        else
-          return false
         end
       end
     end
+    return false
   end
 
   def up_double?(moves)
     x1,y1 = moves.first
     x3,y3 = moves[1]
     x2, y2 = x3 > x1 ? (x1+1) : (x1-1), y1-1
-    if on_board?(moves[1]) && self.game_opponent_pieces.include?(self.board[x2][y2])
-      return false unless ((x1-x3).abs == 2) && (y1-y3 == 2)
-    end
+    return false unless on_board?(moves[1])
+    return false unless self.game_opponent_pieces.include?(self.board[x2][y2])
+    return false unless ((x1-x3).abs == 2) && (y1-y3 == 2)
     true
   end
 
@@ -88,9 +87,9 @@ class Game < ActiveRecord::Base
     x1,y1 = moves.first
     x3,y3 = moves[1]
     x2,y2 = x3 > x1 ? (x1+1) : (x1-1), y1 + 1
-    if on_board?(moves[1]) && self.game_opponent_pieces.include?(self.board[x2][y2])
-      return false unless ((x1-x3).abs == 2) && (y3-y1 == 2)
-    end
+    return false unless on_board?(moves[1])
+    return false unless self.game_opponent_pieces.include?(self.board[x2][y2])
+    return false unless ((x1-x3).abs == 2) && (y3-y1 == 2)
     true
   end
 
