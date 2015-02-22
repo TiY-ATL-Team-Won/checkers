@@ -27,7 +27,7 @@ class Game < ActiveRecord::Base
     # self.update_attribute :board, STARTING_BOARD
     #binding.pry
     #self.users.first
-    self.players_count = 1
+    #self.players_count = 1
   	self.turn_count = 1
   	#binding.pry
 
@@ -158,7 +158,7 @@ class Game < ActiveRecord::Base
   # 			king_move(start_x, start_y, params[move])
   # 		end
   #   end
-  	
+
   # 	return_board(board, message_type, message)
 
   # end
@@ -174,7 +174,7 @@ class Game < ActiveRecord::Base
   # 	  	self.board[st_x][st_y] = 0
   # 	  	self.board[mv_x][mv_y] = 1
   # 	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-  	  	
+
 
   # 	  	#this code needs to be finished!
 

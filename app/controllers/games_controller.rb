@@ -23,8 +23,8 @@ class GamesController < ApplicationController
 
 
   def join
-    @waiting = Game.find_by players_count: 1
-    if @waiting
+    @waiting = Game.waiting.first
+    if @waiting && @waiting.users.first.id != current_user.id
       @waiting.users << current_user
       render json: game_response(@waiting), status: :ok
     else
