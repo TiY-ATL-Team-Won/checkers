@@ -40,7 +40,7 @@ class Game < ActiveRecord::Base
   end
 
   def game_current_player_pieces
-    self.turn_count.odd? == true ? [2,4] : [1,3]
+    self.turn_count.odd? == true ? [1,3] : [2,4]
   end
 
   def on_board?(move)
@@ -51,10 +51,10 @@ class Game < ActiveRecord::Base
 
   def is_jump_available?
     self.board.each do |r|
-      row.each do |c|
+      r.each do |c|
         #check if jumps avaiable for each piece
-        if game_current_player_pieces.include?(self.board[row][col])
-          piece = self.board[r][c]
+        if game_current_player_pieces.include?(c)
+          piece = c
           case piece
           when 1
             return true if down_double?([[r,c],[r+2,c-2]])||down_double?([[r,c],[r+2,c+2]])
@@ -78,7 +78,7 @@ class Game < ActiveRecord::Base
     x1,y1 = moves.first
     x3,y3 = moves[1]
     x2, y2 = x3 > x1 ? (x1+1) : (x1-1), y1-1
-    if on_board?(moves[1]) && self.game_opponent_pieces.include?(game.board[x2][y2])
+    if on_board?(moves[1]) && self.game_opponent_pieces.include?(self.board[x2][y2])
       return false unless ((x1-x3).abs == 2) && (y1-y3 == 2)
     end
     true
@@ -88,7 +88,7 @@ class Game < ActiveRecord::Base
     x1,y1 = moves.first
     x3,y3 = moves[1]
     x2,y2 = x3 > x1 ? (x1+1) : (x1-1), y1 + 1
-    if on_board?(moves[1]) && self.game_opponent_pieces.include?(game.board[x2][y2])
+    if on_board?(moves[1]) && self.game_opponent_pieces.include?(self.board[x2][y2])
       return false unless ((x1-x3).abs == 2) && (y3-y1 == 2)
     end
     true
@@ -96,8 +96,8 @@ class Game < ActiveRecord::Base
 
   def is_jump?(moves)
     x,y = moves.first
-    ([2,3,4].include?(self.board[x][y]) && (up_double?(moves)) ||
-    ([1,3,4].include?(self.board[x][y]) && (down_double?(moves))
+    (([2,3,4].include?(self.board[x][y])) && (up_double?(moves))) ||
+    (([1,3,4].include?(self.board[x][y])) && (down_double?(moves)))
   end
 
   def any_jumps_left?(moves)
