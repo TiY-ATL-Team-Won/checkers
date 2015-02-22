@@ -164,10 +164,10 @@ class Game < ActiveRecord::Base
   # checks to see if a piece should be kinged at the end of a turn, it it should be, king it!
   def king_me(mv_x, mv_y, type)
     if type == 1 && mv_y == 7
-      @board[mv_y][mv_x] = 3
+      @game.board[mv_y][mv_x] = 3
       return true
     elsif type == 2 && mv_y == 0
-      @board[mv_y][mv_x] = 4
+      @game.board[mv_y][mv_x] = 4
       return true
     else
       return false
