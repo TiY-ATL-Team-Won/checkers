@@ -94,7 +94,7 @@ class Game < ActiveRecord::Base
   	  	@game.board[st_y][st_x] = 0
   	  	@game.board[mv_y][mv_x] = 1
   	  else
-        binding.pry
+        #binding.pry
   	  	return {:board => @game.board, :message_type => 0, :message => "Move unsuccessful"}
   	  end
   	end
@@ -113,7 +113,7 @@ class Game < ActiveRecord::Base
         @game.board[st_y][st_x] = 0
         @game.board[mv_y][mv_x] = 2
       else
-        binding.pry
+        #binding.pry
         return {:board => @game.board, :message_type => 0, :message => "Move unsuccessful"}
       end
     end
@@ -129,63 +129,6 @@ class Game < ActiveRecord::Base
   def legal_black_move(start_x, start_y, x, y, board)
     y - 1 == start_y && (x - 1 == start_x || x + 1 == start_x) && board[y][x] == 0
   end
-
-  # def player_move(params)
-  # 	start_x = params[x]
-  # 	start_y = params[y]
-
-
-  # 	if current_user == game.players.first
-  # 		case type
-  # 		when 1
-  # 			red_move(start_x, start_y, params["move"])
-  # 		when 2
-  # 			return_board(board, message_type = 0, message = "That's not your piece")
-  # 		when 3
-  # 			king_move(start_x, start_y, params[move])
-  # 		when 4
-  # 			return_board(board, message_type = 0, message = "That's not your piece")
-  # 		end
-  # 	else
-  # 		case type
-  # 		when 1
-  # 			as_json(self.board)
-  # 		when 2
-  # 			black_move(start_x, start_y, params[move])
-  # 		when 3
-  # 			king_move(start_x, start_y, params[move])
-  # 		when 4
-  # 			king_move(start_x, start_y, params[move])
-  # 		end
-  #   end
-  	
-  # 	return_board(board, message_type, message)
-
-  # end
-
-
-
-  # def red_move(st_x, st_y, move)
-
-  # 	moves.each do |move|
-  # 	  mv_x = move[x]
-  # 	  mv_y = move[y]
-  # 	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-  # 	  	self.board[st_x][st_y] = 0
-  # 	  	self.board[mv_x][mv_y] = 1
-  # 	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
-  	  	
-
-  # 	  	#this code needs to be finished!
-
-
-
-  # 	  end
-
-
-  # 	end
-
-  # end
 
 
 
