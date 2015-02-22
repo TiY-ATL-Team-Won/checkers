@@ -57,9 +57,9 @@ class Game < ActiveRecord::Base
           piece = self.board[r][c]
           case piece
           when 1
-            return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]])
-          when 2
             return true if down_double?([[r,c],[r+2,c-2]])||down_double?([[r,c],[r+2,c+2]])
+          when 2
+            return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]])
           when 3
             return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]]) ||
             down_double?([[r,c],[r+2,c+2]])||down_double?([[r,c],[r+2,c-2]])
@@ -95,14 +95,26 @@ class Game < ActiveRecord::Base
   end
 
   def is_jump?(moves)
-    up_double?(moves) || down_double?(moves)
+    x,y = moves.first
+    ([2,3,4].include?(self.board[x][y]) && (up_double?(moves)) ||
+    ([1,3,4].include?(self.board[x][y]) && (down_double?(moves))
+  end
+
+  def any_jumps_left?(moves)
+    #x,y = moves.last
+
+  end
+
+  def valid_multi_jump?(moves)
+    return false unless (moves.all? {|x| self.is_jump?(x)} && !any_jumps_left(moves))
+    true
   end
 
   def valid_move?(moves)
      return false unless moves.all? {|x| self.on_board?(x)}
      return false unless moves.any? {|x| self.already_taken?(x)}
      return false unless is_jump_available? && !is_jump(moves)
-  #   if move.length > 2
+  #   if moves.length > 2
   #     valid_multi_jump?(move,user)
   #     are there other jumps?
   #   elsif up_double? (move, user)
