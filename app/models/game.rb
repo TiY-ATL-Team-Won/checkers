@@ -132,6 +132,7 @@ class Game < ActiveRecord::Base
      elsif (up_double?(moves)||down_double?(moves)) && !any_jumps_left(moves))
       return true
     elsif (up_single?(moves) || down_single?(moves))
+      return true
     else
       return false
       puts "Invalid move"
