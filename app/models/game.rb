@@ -27,7 +27,7 @@ class Game < ActiveRecord::Base
     # self.update_attribute :board, STARTING_BOARD
     #binding.pry
     #self.users.first
-    self.players_count = 1
+    #self.players_count = 1
   	self.turn_count = 1
   	#binding.pry
 
@@ -130,6 +130,64 @@ class Game < ActiveRecord::Base
     y - 1 == start_y && (x - 1 == start_x || x + 1 == start_x) && board[y][x] == 0
   end
 
+  # def player_move(params)
+  # 	start_x = params[x]
+  # 	start_y = params[y]
+
+
+  # 	if current_user == game.players.first
+  # 		case type
+  # 		when 1
+  # 			red_move(start_x, start_y, params["move"])
+  # 		when 2
+  # 			return_board(board, message_type = 0, message = "That's not your piece")
+  # 		when 3
+  # 			king_move(start_x, start_y, params[move])
+  # 		when 4
+  # 			return_board(board, message_type = 0, message = "That's not your piece")
+  # 		end
+  # 	else
+  # 		case type
+  # 		when 1
+  # 			as_json(self.board)
+  # 		when 2
+  # 			black_move(start_x, start_y, params[move])
+  # 		when 3
+  # 			king_move(start_x, start_y, params[move])
+  # 		when 4
+  # 			king_move(start_x, start_y, params[move])
+  # 		end
+  #   end
+
+  # 	return_board(board, message_type, message)
+
+  # end
+
+
+
+  # def red_move(st_x, st_y, move)
+
+  # 	moves.each do |move|
+  # 	  mv_x = move[x]
+  # 	  mv_y = move[y]
+  # 	  if mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+  # 	  	self.board[st_x][st_y] = 0
+  # 	  	self.board[mv_x][mv_y] = 1
+  # 	  elsif mv_x - 1 == st_x && (mv_y - 1 == st_y || mv_y + 1 == st_y) && board[mv_x][mv_y] == 0
+
+
+  # 	  	#this code needs to be finished!
+
+
+
+  # 	  end
+
+
+  # 	end
+
+  # end
+
+>>>>>>> origin/fix_counter_cache
 
 
 end
