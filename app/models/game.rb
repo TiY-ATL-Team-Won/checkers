@@ -100,8 +100,22 @@ class Game < ActiveRecord::Base
   end
 
   def any_jumps_left?(moves)
-    #x,y = moves.last
-
+    x,y = moves.first
+    r,c = moves.last
+    piece=self.board[x][y]
+    case piece
+    when 1
+      return true if down_double?([[r,c],[r+2,c-2]])||down_double?([[r,c],[r+2,c+2]])
+    when 2
+      return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]])
+    when 3
+      return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]]) ||
+      down_double?([[r,c],[r+2,c+2]])||down_double?([[r,c],[r+2,c-2]])
+    when 4
+      return true if up_double?([[r,c],[r-2,c+2]])||up_double?([[r,c],[r-2,c-2]]) ||
+      down_double?([[r,c],[r+2,c+2]])||down_double?([[r,c],[r+2,c-2]])
+    end
+    false
   end
 
   def valid_multi_jump?(moves)
@@ -113,15 +127,16 @@ class Game < ActiveRecord::Base
      return false unless moves.all? {|x| self.on_board?(x)}
      return false unless moves.any? {|x| self.already_taken?(x)}
      return false unless is_jump_available? && !is_jump(moves)
-  #   if moves.length > 2
-  #     valid_multi_jump?(move,user)
-  #     are there other jumps?
-  #   elsif up_double? (move, user)
-  #     are there other jumps
-  #   elsif up_single?(move, user)
-  #   else
+     if moves.length > 2 && valid_multi_jump?(moves)
+       return true
+     elsif (up_double?(moves)||down_double?(moves)) && !any_jumps_left(moves))
+      return true
+    elsif (up_single?(moves) || down_single?(moves))
+    else
+      return false
+      puts "Invalid move"
   #     error
-  #   end
+    end
   end
 
   def already_taken?(move, by = nil)
